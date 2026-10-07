@@ -1,0 +1,69 @@
+/* The Hub — shared charcoal, orange, and white design tokens and page polish. */
+:root {
+  color-scheme: dark;
+  --hub-orange: #ff7a1a;
+  --hub-orange-bright: #ff9142;
+  --hub-black: #0a0a0b;
+  --hub-white: #f7f5f2;
+  --hub-muted: #aaa6a1;
+  --hub-border: rgba(255, 255, 255, .11);
+  --hub-radius: 18px;
+}
+
+html,
+body,
+body.home-page,
+body.hub-page {
+  background-color: var(--hub-black) !important;
+  color: var(--hub-white) !important;
+}
+
+.eyebrow,
+.text-link,
+.hub-page .eyebrow,
+.home-page .eyebrow { color: var(--hub-orange-bright) !important; }
+
+.top-navbar .navbar-links a:hover,
+.top-navbar .navbar-links a:focus-visible,
+.top-navbar .navbar-links a.active,
+.hub-page .navbar-links a.active {
+  border-color: rgba(255, 122, 26, .23) !important;
+  background: rgba(255, 122, 26, .11) !important;
+  color: var(--hub-orange-bright) !important;
+}
+
+.primary-button,
+.tab-button.active {
+  border-color: var(--hub-orange) !important;
+  background: linear-gradient(135deg, #ff9142, #f36a0b) !important;
+  color: #1b120d !important;
+}
+
+.app-card:hover,
+.app-card:focus-visible,
+.destination-card:hover,
+.destination-card:focus-visible,
+.games-destination-link:hover,
+.games-destination-link:focus-visible {
+  border-color: rgba(255, 122, 26, .5) !important;
+}
+
+.play-badge,
+.smp-icon,
+.home-footer-logo {
+  background: var(--hub-orange) !important;
+  color: #17100b !important;
+}
+
+.web-icon,
+.games-destination-icon {
+  border-color: rgba(255, 122, 26, .25) !important;
+  background: rgba(255, 122, 26, .12) !important;
+  color: var(--hub-orange-bright) !important;
+}
+
+.destination-card::before { background: var(--hub-orange) !important; }
+
+@media (max-width: 620px) {
+  .top-navbar .navbar-brand > span:last-child { display: none; }
+}
