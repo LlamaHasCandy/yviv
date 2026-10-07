@@ -317,6 +317,13 @@ function createAppCard(app) {
     image.src = app.image;
     image.alt = app.name;
     image.loading = "lazy";
+    image.decoding = "async";
+    image.addEventListener("error", () => {
+      const placeholder = document.createElement("span");
+      placeholder.className = "app-icon-placeholder";
+      placeholder.textContent = app.name.charAt(0).toUpperCase();
+      image.replaceWith(placeholder);
+    }, { once: true });
     icon.appendChild(image);
   } else {
     const placeholder = document.createElement("span");
@@ -351,7 +358,11 @@ function createAppCard(app) {
     deleteButton.type = "button";
     deleteButton.textContent = "Delete game";
     deleteButton.setAttribute("aria-label", `Delete ${app.name}`);
-    deleteButton.addEventListener("click", () => deleteSavedGame(app.savedGameId, app.name));
+    deleteButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      deleteSavedGame(app.savedGameId, app.name);
+    });
     info.appendChild(deleteButton);
     grid.appendChild(link);
   } else {
@@ -765,15 +776,8 @@ const QUOTES_FALLBACK = [
 const quoteDisplay = document.getElementById("quoteDisplay");
 let quotesCache = null;
 
-async function loadQuotes() {
-  try {
-    const res = await fetch("quotes.json");
-    if (!res.ok) throw new Error("fetch failed");
-    const data = await res.json();
-    quotesCache = Array.isArray(data.quotes) && data.quotes.length > 0 ? data.quotes : QUOTES_FALLBACK;
-  } catch {
-    quotesCache = QUOTES_FALLBACK;
-  }
+function loadQuotes() {
+  quotesCache = QUOTES_FALLBACK;
 }
 
 function updateQuote() {
@@ -788,10 +792,9 @@ function updateQuote() {
 }
 
 if (quoteDisplay) {
-  loadQuotes().then(() => {
-    updateQuote();
-    setInterval(updateQuote, 60000);
-  });
+  loadQuotes();
+  updateQuote();
+  setInterval(updateQuote, 60000);
 }
 
 /* ===== INTERACTIVE SPACE BACKGROUND ===== */
